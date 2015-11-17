@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang='en'>
+<head>
+	<title>Balloon Fun</title>
+<style>
+canvas {
+	border: 1px solid black;
+}	
+</style>
+<script>
+var canvas;
+var context;
+
+//making a responsive canvas
+function resizeCanvas() {
+    canvas = document.getElementById("canvas");
+    //set new sizes                 
+    var newCanvasWidth = Math.max((canvas.parentNode.clientWidth), 800);
+    //this part needs work
+    var newCanvasHeight = Math.max((canvas.parentNode.clientHeight), 800);
+
+    //only redraw if the size  has changed
+    if ((newCanvasWidth != canvas.width) || (newCanvasHeight != canvas.height)) {
+        canvas.width = newCanvasWidth;
+        canvas.height = newCanvasHeight;
+    }
+}
+//resizes once window stops moving
+var resizeTracker;
+window.addEventListener('resize', (function(){
+	clearTimeout(resizeTracker);
+	resizeTracker = setTimeout(resizeCanvas, 100);
+}), false);
+
+</script>
+</head>
+<body>
+	<canvas id='canvas' width='500' height='400'></canvas>
+</body>
+</html>
