@@ -15,10 +15,11 @@ Add balloons
 Add mouse click interaction
 Add animation to balloons
 Add animation to pump
-Add text
-Add animation to text
+Add animation to text--title screen with button to start?
 Fix responsive canvas issue
 */
+
+var textTimer;
 
 function degreesToRadians(degrees) {
     return (degrees * Math.PI)/180;
@@ -34,6 +35,7 @@ function artHandler() {
     drawPump(canvas, context);
     drawCord(canvas, context);
     drawBalloon(canvas, context);
+    //drawText(canvas, context);
  
 }
 
@@ -43,6 +45,18 @@ function fillBackgroundColor(canvas, context) {
     context.fillStyle = bgColor;
     context.fillRect(0,0,canvas.width,canvas.height);
 }
+
+/*function drawText(canvas, context) {
+    context.globalCompositeOperation='source-over';
+    context.fillStyle = 'black';
+    //can play with CSS on font here
+    context.font = '24pt Helvetica Neue';
+    //easier to set coordinates here
+    context.textAlign = 'center';
+    //3 properties: what to write, x position, y position
+    context.fillText('Balloon Fun!', canvas.width/2, canvas.height/6);
+}
+*/
 
 /*making a responsive canvas
 function resizeCanvas() {
@@ -133,8 +147,27 @@ function drawGround(canvas, context){
 
 }
 
+//FIX THIS
+function textAnim(){
+    for (var i=0; i<5; i++) {
+        var title='Balloon Fun!';
+        title.x=canvas.width/2;
+        title.y=canvas.height/6;
+        context.globalCompositeOperation='source-over';
+        context.fillStyle = 'black';
+        //can play with CSS on font here
+        context.font = '24pt Helvetica Neue';
+        //easier to set coordinates here
+        //3 properties: what to write, x position, y position
+        context.fillText(title, canvas.width/2, canvas.height/6);
+        return title.y+=1;
+    }
+
+}
+
 window.onload = function() {
   artHandler();
+  textTimer=setInterval(textAnim, 2000);
 }
 
 </script>
