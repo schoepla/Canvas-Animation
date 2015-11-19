@@ -4,16 +4,44 @@
 	<title>Balloon Fun</title>
 <style>
 canvas {
-	border: 1px solid black;
+	border: 0px solid black;
 }	
 </style>
 <script>
-var canvas;
-var context;
+/*TO DO
+Create moving clouds
+Add background music
+Add balloons
+Add mouse click interaction
+Add animation to balloons
+Add animation to pump
+Add text
+Add animation to text
+Fix responsive canvas issue
+*/
 
-//making a responsive canvas
+function artHandler() {
+    //handles the art generation
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    //important to draw the BG first to see everything else!
+    fillBackgroundColor(canvas, context);
+    drawGround(canvas, context);
+    drawPump(canvas, context);
+    drawCord(canvas, context);
+    drawBalloon(canvas, context);
+ 
+}
+
+function fillBackgroundColor(canvas, context) {
+    var bgColor = '#cceeff';
+    //sets fill style
+    context.fillStyle = bgColor;
+    context.fillRect(0,0,canvas.width,canvas.height);
+}
+
+/*making a responsive canvas
 function resizeCanvas() {
-    canvas = document.getElementById("canvas");
     //set new sizes                 
     var newCanvasWidth = Math.max((canvas.parentNode.clientWidth), 800);
     //this part needs work
@@ -31,10 +59,68 @@ window.addEventListener('resize', (function(){
 	clearTimeout(resizeTracker);
 	resizeTracker = setTimeout(resizeCanvas, 100);
 }), false);
+*/
+
+//drawing the balloon pump
+function drawPump(canvas, context) {
+    var pumpFill = context.createLinearGradient(400,400,380,300);
+    pumpFill.addColorStop(1, "#cccccc");
+    pumpFill.addColorStop(0, "#666666");
+    context.globalCompositeOperation='source-over';
+    context.beginPath();
+    context.moveTo(400, 400);
+    context.lineTo(400, 300);
+    context.lineTo(380, 300);
+    context.lineTo(380, 400);
+    context.strokeStyle="4d4d4d";
+    context.fillStyle=pumpFill;
+    context.stroke();
+    context.fill();
+    //drawing the handle
+    context.beginPath();
+    context.moveTo(400, 295);
+    context.lineTo(430, 295);
+    context.lineTo(430, 285);
+    context.lineTo(350, 285);
+    context.lineTo(350, 295);
+    context.lineTo(400, 295);
+    context.strokeStyle="4d4d4d";
+    context.fillStyle=pumpFill;
+    context.stroke();
+    context.fill();
+    //drawing the inner part of base
+    context.beginPath();
+    context.moveTo(395, 295);
+    context.lineTo(395, 300);
+    context.lineTo(385, 300);
+    context.lineTo(385, 295);
+    context.lineTo(395, 295);
+    context.fillStyle="#4d4d4d";
+    context.fill();
+}
+
+function drawCord(canvas, context){
+
+
+}
+
+function drawBalloon(canvas, context){
+
+
+}
+
+function drawGround(canvas, context){
+
+    
+}
+
+window.onload = function() {
+  artHandler();
+}
 
 </script>
 </head>
 <body>
-	<canvas id='canvas' width='500' height='400'></canvas>
+	<canvas id='canvas' width='500' height='450'></canvas>
 </body>
 </html>
