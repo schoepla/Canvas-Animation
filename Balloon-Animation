@@ -20,6 +20,10 @@ Add animation to text
 Fix responsive canvas issue
 */
 
+function degreesToRadians(degrees) {
+    return (degrees * Math.PI)/180;
+}
+
 function artHandler() {
     //handles the art generation
     var canvas = document.getElementById('canvas');
@@ -68,10 +72,12 @@ function drawPump(canvas, context) {
     pumpFill.addColorStop(0, "#666666");
     context.globalCompositeOperation='source-over';
     context.beginPath();
-    context.moveTo(400, 400);
+    context.moveTo(400, 430);
     context.lineTo(400, 300);
     context.lineTo(380, 300);
-    context.lineTo(380, 400);
+    context.lineTo(380, 430);
+    context.quadraticCurveTo(390, 436, 400, 430);
+    //context.scale(1, -1);
     context.strokeStyle="4d4d4d";
     context.fillStyle=pumpFill;
     context.stroke();
@@ -100,8 +106,13 @@ function drawPump(canvas, context) {
 }
 
 function drawCord(canvas, context){
-
-
+    context.globalCompositeOperation='source-over';
+    context.beginPath();
+    context.moveTo(380, 430);
+    context.bezierCurveTo(240, 380, 108, 470, 100, 430);
+    context.lineWidth=5;
+    context.strokeStyle= 'black';
+    context.stroke();
 }
 
 function drawBalloon(canvas, context){
@@ -110,8 +121,16 @@ function drawBalloon(canvas, context){
 }
 
 function drawGround(canvas, context){
+    context.globalCompositeOperation='source-over';
+    context.beginPath();
+    context.moveTo(500, 450);
+    context.lineTo(450, 400);
+    context.lineTo(50, 400);
+    context.lineTo(0, 450);
+    context.lineTo(500, 450);
+    context.fillStyle="#b3c69f";
+    context.fill();
 
-    
 }
 
 window.onload = function() {
