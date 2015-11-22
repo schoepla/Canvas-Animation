@@ -28,14 +28,27 @@ function degreesToRadians(degrees) {
     return (degrees * Math.PI)/180;
 }
 
+
+
 function artHandler() {
-    //fillBackgroundColor(canvas, context);
-    //drawGround(canvas, context);
-    //drawPump(canvas, context);
-    //drawCord(canvas, context);
-    //drawText(canvas, context);
-    timer = setInterval(growBalloon(canvas, context), 100);
+    drawBackground(canvas, context);
+    drawGround(canvas, context);
+    drawPump(canvas, context);
+    drawCord(canvas, context);
+    drawText(canvas, context);
+    //Balloon(canvas, context);
+    //timer = setInterval(growBalloon(canvas, context), 100);
+    setTimeout(function() {
+        var startTime = (new Date()).getTime();
+        animate(balloon, canvas, context, startTime);
+      }, 1000);
     
+    window.requestAnimFrame = (function(callback) {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+        function(callback) {
+          window.setTimeout(callback, 1000 / 60);
+        };
+      })();
 
     function drawBackground(canvas, context) {
         var bgColor = '#dfbf9f';
@@ -115,17 +128,17 @@ function artHandler() {
         context.stroke();
     }
 
-    function drawBalloon(canvas, context){
+
+    var balloon = new Balloon(canvas, context);
+
+    function Balloon(canvas, context){
         //change these colors if extra time
         var colors = ['red','blue','green','yellow','orange'];
         this.color = colors[Math.floor(Math.random()*colors.length)];
-        function Balloon(){
-            context.globalCompositeOperation='source-over';
-            context.beginPath();
-            context.moveTo(100, 422);
-            context.bezierCurveTo(0, 300, 200, 300, 100, 422);
-        }
-        var balloon = new Balloon;
+        context.globalCompositeOperation='source-over';
+        context.beginPath();
+        context.moveTo(100, 422);
+        context.bezierCurveTo(0, 300, 200, 300, 100, 422);
         //drawing the tie of the balloon
         context.moveTo(100, 422);
         context.lineTo(104, 430);
@@ -146,7 +159,7 @@ function artHandler() {
         context.fill();
 
     }
-
+    /*
     //animating the balloon
     function growBalloon(canvas, context){
         context.fillRect(0, 0, canvas.width, canvas.height);
@@ -157,7 +170,7 @@ function artHandler() {
         drawCord(canvas, context);
         drawText(canvas, context);
         drawBalloon(canvas, context);
-        /*this.sx = 1.1;
+        this.sx = 1.1;
         this.sy = 1.1;
         for (var i=0; i<30; i++){
         
@@ -165,9 +178,37 @@ function artHandler() {
             this.size = (this.size * sx);
             //context.fillStyle = 'rgba(0, 0, 0, 0.3)';
             drawBalloon(canvas, context); 
-        }*/
-        
+        }
     }
+        */
+        
+    
+
+
+    function animate(balloon, canvas, context, startTime) {
+        //update
+        var time = (new Date()).getTime() - startTime;
+        var linearSpeed = 100;
+        //pixels/second
+        var newX = linearSpeed * time / 1000;
+        if(newX < canvas.width - balloon.width - balloon.borderWidth / 2) {
+          balloon.x = newX;
+        }
+        //clear
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        drawBackground(canvas, context);
+        drawGround(canvas, context);
+        drawPump(canvas, context);
+        drawCord(canvas, context);
+        drawText(canvas, context);
+        Balloon(canvas, context);
+        //request new frame
+        requestAnimFrame(function() {
+          animate(balloon, canvas, context, startTime);
+        });
+      }
+
+
 
     function drawGround(canvas, context){
         context.globalCompositeOperation='source-over';
