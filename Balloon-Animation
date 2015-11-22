@@ -9,177 +9,220 @@ canvas {
 </style>
 <script>
 /*TO DO
-Create moving clouds
 Add background music
-Add balloons
 Add mouse click interaction
 Add animation to balloons
 Add animation to pump
 Add animation to text--title screen with button to start?
-Fix responsive canvas issue
+Fix responsive canvas issue?
+Make better color gradients for balloons
 */
 
+var canvas;
+var context;
 var textTimer;
+var timer;
+var title;
 
 function degreesToRadians(degrees) {
     return (degrees * Math.PI)/180;
 }
 
 function artHandler() {
-    //handles the art generation
-    var canvas = document.getElementById('canvas');
-    var context = canvas.getContext('2d');
-    //important to draw the BG first to see everything else!
-    fillBackgroundColor(canvas, context);
-    drawGround(canvas, context);
-    drawPump(canvas, context);
-    drawCord(canvas, context);
-    drawBalloon(canvas, context);
+    //fillBackgroundColor(canvas, context);
+    //drawGround(canvas, context);
+    //drawPump(canvas, context);
+    //drawCord(canvas, context);
     //drawText(canvas, context);
- 
-}
-
-function fillBackgroundColor(canvas, context) {
-    var bgColor = '#cceeff';
-    //sets fill style
-    context.fillStyle = bgColor;
-    context.fillRect(0,0,canvas.width,canvas.height);
-}
-
-/*function drawText(canvas, context) {
-    context.globalCompositeOperation='source-over';
-    context.fillStyle = 'black';
-    //can play with CSS on font here
-    context.font = '24pt Helvetica Neue';
-    //easier to set coordinates here
-    context.textAlign = 'center';
-    //3 properties: what to write, x position, y position
-    context.fillText('Balloon Fun!', canvas.width/2, canvas.height/6);
-}
-*/
-
-/*making a responsive canvas
-function resizeCanvas() {
-    //set new sizes                 
-    var newCanvasWidth = Math.max((canvas.parentNode.clientWidth), 800);
-    //this part needs work
-    var newCanvasHeight = Math.max((canvas.parentNode.clientHeight), 800);
-
-    //only redraw if the size  has changed
-    if ((newCanvasWidth != canvas.width) || (newCanvasHeight != canvas.height)) {
-        canvas.width = newCanvasWidth;
-        canvas.height = newCanvasHeight;
-    }
-}
-//resizes once window stops moving
-var resizeTracker;
-window.addEventListener('resize', (function(){
-	clearTimeout(resizeTracker);
-	resizeTracker = setTimeout(resizeCanvas, 100);
-}), false);
-*/
-
-//drawing the balloon pump
-function drawPump(canvas, context) {
-    var pumpFill = context.createLinearGradient(400,400,380,300);
-    pumpFill.addColorStop(1, "#cccccc");
-    pumpFill.addColorStop(0, "#666666");
-    context.globalCompositeOperation='source-over';
-    context.beginPath();
-    context.moveTo(400, 430);
-    context.lineTo(400, 300);
-    context.lineTo(380, 300);
-    context.lineTo(380, 430);
-    context.quadraticCurveTo(390, 436, 400, 430);
-    //context.scale(1, -1);
-    context.strokeStyle="4d4d4d";
-    context.fillStyle=pumpFill;
-    context.stroke();
-    context.fill();
-    //drawing the handle
-    context.beginPath();
-    context.moveTo(400, 295);
-    context.lineTo(430, 295);
-    context.lineTo(430, 285);
-    context.lineTo(350, 285);
-    context.lineTo(350, 295);
-    context.lineTo(400, 295);
-    context.strokeStyle="4d4d4d";
-    context.fillStyle=pumpFill;
-    context.stroke();
-    context.fill();
-    //drawing the inner part of base
-    context.beginPath();
-    context.moveTo(395, 295);
-    context.lineTo(395, 300);
-    context.lineTo(385, 300);
-    context.lineTo(385, 295);
-    context.lineTo(395, 295);
-    context.fillStyle="#4d4d4d";
-    context.fill();
-}
-
-function drawCord(canvas, context){
-    context.globalCompositeOperation='source-over';
-    context.beginPath();
-    context.moveTo(380, 430);
-    context.bezierCurveTo(240, 380, 108, 470, 100, 430);
-    context.lineWidth=5;
-    context.strokeStyle= 'black';
-    context.stroke();
-}
-
-function drawBalloon(canvas, context){
-    var colors = ['red','blue','green','yellow','orange'];
-    context.globalCompositeOperation='source-over';
-    context.beginPath();
-    context.moveTo(108, 430);
-    context.bezierCurveTo(10, -50, 388, -50, 200, 130);
-    context.fillStyle="red";
-    context.fill();
-
-}
-
-function drawGround(canvas, context){
-    context.globalCompositeOperation='source-over';
-    context.beginPath();
-    context.moveTo(500, 450);
-    context.lineTo(450, 400);
-    context.lineTo(50, 400);
-    context.lineTo(0, 450);
-    context.lineTo(500, 450);
-    context.fillStyle="#b3c69f";
-    context.fill();
-
-}
-
-/*FIX THIS
-function textAnim(canvas, context){
-    for (var i=0; i<5; i++) {
-        var title='Balloon Fun!';
-        title.x=canvas.width/2;
-        title.y=canvas.height/6;
-        context.globalCompositeOperation='source-over';
-        context.fillStyle = 'black';
-        //can play with CSS on font here
-        context.font = '24pt Helvetica Neue';
-        //easier to set coordinates here
-        //3 properties: what to write, x position, y position
-        context.fillText(title, canvas.width/2, canvas.height/6);
-        return title.y+=1;
-    }
+    timer = setInterval(growBalloon(canvas, context), 100);
     
 
-}*/
+    function drawBackground(canvas, context) {
+        var bgColor = '#dfbf9f';
+        //sets fill style
+        context.fillStyle = bgColor;
+        context.fillRect(0,0,canvas.width,canvas.height);
+    }
+
+    /*making a responsive canvas
+    function resizeCanvas() {
+        //set new sizes                 
+        var newCanvasWidth = Math.max((canvas.parentNode.clientWidth), 800);
+        //this part needs work
+        var newCanvasHeight = Math.max((canvas.parentNode.clientHeight), 800);
+
+        //only redraw if the size  has changed
+        if ((newCanvasWidth != canvas.width) || (newCanvasHeight != canvas.height)) {
+            canvas.width = newCanvasWidth;
+            canvas.height = newCanvasHeight;
+        }
+    }
+    //resizes once window stops moving
+    var resizeTracker;
+    window.addEventListener('resize', (function(){
+    	clearTimeout(resizeTracker);
+    	resizeTracker = setTimeout(resizeCanvas, 100);
+    }), false);
+    */
+
+    //drawing the balloon pump
+    function drawPump(canvas, context) {
+        var pumpFill = context.createLinearGradient(400,400,380,300);
+        pumpFill.addColorStop(1, "#cccccc");
+        pumpFill.addColorStop(0, "#666666");
+        context.globalCompositeOperation='source-over';
+        context.beginPath();
+        context.moveTo(400, 430);
+        context.lineTo(400, 300);
+        context.lineTo(380, 300);
+        context.lineTo(380, 430);
+        context.quadraticCurveTo(390, 436, 400, 430);
+        //context.scale(1, -1);
+        context.strokeStyle="4d4d4d";
+        context.fillStyle=pumpFill;
+        context.stroke();
+        context.fill();
+        //drawing the handle
+        context.beginPath();
+        context.moveTo(400, 295);
+        context.lineTo(430, 295);
+        context.lineTo(430, 285);
+        context.lineTo(350, 285);
+        context.lineTo(350, 295);
+        context.lineTo(400, 295);
+        context.strokeStyle="4d4d4d";
+        context.fillStyle=pumpFill;
+        context.stroke();
+        context.fill();
+        //drawing the inner part of base
+        context.beginPath();
+        context.moveTo(395, 295);
+        context.lineTo(395, 300);
+        context.lineTo(385, 300);
+        context.lineTo(385, 295);
+        context.lineTo(395, 295);
+        context.fillStyle="#4d4d4d";
+        context.fill();
+    }
+
+    function drawCord(canvas, context){
+        context.globalCompositeOperation='source-over';
+        context.beginPath();
+        context.moveTo(380, 430);
+        context.bezierCurveTo(240, 380, 108, 470, 100, 430);
+        context.lineWidth=5;
+        context.strokeStyle= 'black';
+        context.stroke();
+    }
+
+    function drawBalloon(canvas, context){
+        //change these colors if extra time
+        var colors = ['red','blue','green','yellow','orange'];
+        this.color = colors[Math.floor(Math.random()*colors.length)];
+        function Balloon(){
+            context.globalCompositeOperation='source-over';
+            context.beginPath();
+            context.moveTo(100, 422);
+            context.bezierCurveTo(0, 300, 200, 300, 100, 422);
+        }
+        var balloon = new Balloon;
+        //drawing the tie of the balloon
+        context.moveTo(100, 422);
+        context.lineTo(104, 430);
+        context.lineTo(96, 430);
+        context.lineTo(100, 422);
+        context.fillStyle=this.color;
+        context.fill();
+        //drawing the highlight
+        context.beginPath();
+        context.globalCompositeOperation='lighter';
+        context.fillStyle='white';
+        context.moveTo(110, 350);
+        context.lineTo(110, 358);
+
+        context.lineTo(114, 354);
+        context.lineTo(114, 350);
+        context.lineTo(110, 350);
+        context.fill();
+
+    }
+
+    //animating the balloon
+    function growBalloon(canvas, context){
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.globalCompositeOperation = 'lighter';
+        drawBackground(canvas, context);
+        drawGround(canvas, context);
+        drawPump(canvas, context);
+        drawCord(canvas, context);
+        drawText(canvas, context);
+        drawBalloon(canvas, context);
+        /*this.sx = 1.1;
+        this.sy = 1.1;
+        for (var i=0; i<30; i++){
+        
+            //var b = this.Balloon;
+            this.size = (this.size * sx);
+            //context.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            drawBalloon(canvas, context); 
+        }*/
+        
+    }
+
+    function drawGround(canvas, context){
+        context.globalCompositeOperation='source-over';
+        context.beginPath();
+        context.moveTo(500, 450);
+        context.lineTo(450, 400);
+        context.lineTo(50, 400);
+        context.lineTo(0, 450);
+        context.lineTo(500, 450);
+        context.fillStyle="#00664c";
+        context.fill();
+        //lines for walls
+        context.fillStyle='#d2a679';
+        context.beginPath();
+        context.moveTo(450, 400);
+        context.lineTo(450, 0);
+        context.lineTo(500, 0);
+        context.lineTo(500, 450);
+        context.lineTo(450, 400);
+        context.fill();
+        //second wall
+        context.beginPath();
+        context.moveTo(50, 400);
+        context.lineTo(50, 0);
+        context.lineTo(0, 0);
+        context.lineTo(0, 450);
+        context.lineTo(50, 400);
+        context.fill();
+    }
+
+    //FIX THIS
+    function drawText(canvas, context){
+        context.globalCompositeOperation = 'source-over';
+            //for (var i=0; i<50; i++){
+            context.beginPath();
+            context.font = '24pt Helvetica Neue';
+            context.fillStyle = 'black';
+            context.textAlign = 'center';
+            context.fillText('Balloon Fun!', canvas.width/2, canvas.height/6);
+            //}
+    }
+}
 
 window.onload = function() {
+  canvas = document.getElementById('canvas');
+  context = canvas.getContext('2d');
   artHandler();
-  //textTimer=setInterval(textAnim, 2000);
+  //textTimer = setInterval(textAnim, 100);
 }
 
 </script>
 </head>
 <body>
 	<canvas id='canvas' width='500' height='450'></canvas>
+    <audio>
+        <source src='.mp3' type='/mpeg'>
 </body>
 </html>
