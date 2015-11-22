@@ -130,7 +130,13 @@ function drawCord(canvas, context){
 }
 
 function drawBalloon(canvas, context){
-
+    var colors = ['red','blue','green','yellow','orange'];
+    context.globalCompositeOperation='source-over';
+    context.beginPath();
+    context.moveTo(108, 430);
+    context.bezierCurveTo(10, -50, 388, -50, 200, 130);
+    context.fillStyle="red";
+    context.fill();
 
 }
 
@@ -147,8 +153,8 @@ function drawGround(canvas, context){
 
 }
 
-//FIX THIS
-function textAnim(){
+/*FIX THIS
+function textAnim(canvas, context){
     for (var i=0; i<5; i++) {
         var title='Balloon Fun!';
         title.x=canvas.width/2;
@@ -162,12 +168,13 @@ function textAnim(){
         context.fillText(title, canvas.width/2, canvas.height/6);
         return title.y+=1;
     }
+    
 
-}
+}*/
 
 window.onload = function() {
   artHandler();
-  textTimer=setInterval(textAnim, 2000);
+  //textTimer=setInterval(textAnim, 2000);
 }
 
 </script>
