@@ -90,8 +90,8 @@ function artHandler() {
         context.lineTo(380, 300);
         context.lineTo(380, 430);
         context.quadraticCurveTo(390, 436, 400, 430);
-        //context.scale(1, -1);
         context.strokeStyle="4d4d4d";
+        context.lineWidth=1;
         context.fillStyle=pumpFill;
         context.stroke();
         context.fill();
