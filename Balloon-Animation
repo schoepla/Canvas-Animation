@@ -158,32 +158,10 @@ function artHandler() {
         context.lineTo(110, 350);
         context.fill();
 
-    }
-    /*
-    //animating the balloon
-    function growBalloon(canvas, context){
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        context.globalCompositeOperation = 'lighter';
-        drawBackground(canvas, context);
-        drawGround(canvas, context);
-        drawPump(canvas, context);
-        drawCord(canvas, context);
-        drawText(canvas, context);
-        drawBalloon(canvas, context);
-        this.sx = 1.1;
-        this.sy = 1.1;
-        for (var i=0; i<30; i++){
-        
-            //var b = this.Balloon;
-            this.size = (this.size * sx);
-            //context.fillStyle = 'rgba(0, 0, 0, 0.3)';
-            drawBalloon(canvas, context); 
-        }
-    }
-        */
-        
-    
+        this.width=100;
+        this.height=150;
 
+    }
 
     function animate(balloon, canvas, context, startTime) {
         //update
@@ -191,7 +169,7 @@ function artHandler() {
         var linearSpeed = 100;
         //pixels/second
         var newX = linearSpeed * time / 1000;
-        if(newX < canvas.width - balloon.width - balloon.borderWidth / 2) {
+        if(newX < canvas.width - balloon.width/ 2) {
           balloon.x = newX;
         }
         //clear
@@ -207,8 +185,6 @@ function artHandler() {
           animate(balloon, canvas, context, startTime);
         });
       }
-
-
 
     function drawGround(canvas, context){
         context.globalCompositeOperation='source-over';
@@ -239,16 +215,13 @@ function artHandler() {
         context.fill();
     }
 
-    //FIX THIS
     function drawText(canvas, context){
         context.globalCompositeOperation = 'source-over';
-            //for (var i=0; i<50; i++){
             context.beginPath();
             context.font = '24pt Helvetica Neue';
             context.fillStyle = 'black';
             context.textAlign = 'center';
             context.fillText('Balloon Fun!', canvas.width/2, canvas.height/6);
-            //}
     }
 }
 
@@ -263,7 +236,5 @@ window.onload = function() {
 </head>
 <body>
 	<canvas id='canvas' width='500' height='450'></canvas>
-    <audio>
-        <source src='.mp3' type='/mpeg'>
 </body>
 </html>
