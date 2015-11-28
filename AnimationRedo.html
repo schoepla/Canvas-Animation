@@ -10,11 +10,9 @@ canvas {
 <script>
 /*TO DO
 Add background music
-Add mouse click interaction
-Add animation to balloons
+Fix animation to balloons
 Add animation to pump
 Add animation to text--title screen with button to start?
-Make better color gradients for balloons
 */
 
 var canvas;
@@ -23,7 +21,7 @@ var textTimer;
 var timer;
 var timerTwo;
 var shapes = [];
-var balloonShapes = ['regular', 'star', 'long', 'heart', 'mickey'];
+var balloonShapes = ['regular', 'star', 'longBal', 'heart', 'mickey'];
 
 function init() {
         canvas = document.getElementById('canvas');
@@ -36,14 +34,13 @@ function init() {
 			handleClick(event.clientX, event.clientY);
 		};
 		timer = setInterval(resizeCanvas, 20);
-		timerTwo = setInterval(newShape, 500);
+		timerTwo = setInterval(newShape, 1000);
       }
 
-//change the colors here later to gradients
 function newShape() {
 	var x = Math.random() * canvas.width;
 	var y = Math.random() * canvas.height;
-	var colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow'];
+    var colors = ['rgba(232, 77, 77, 0.8)', 'rgba(77, 232, 232, 0.8)', 'rgba(155, 232, 77, 0.8)','rgba(154, 77, 232, 0.8)', 'rgba(255, 250, 105, 0.8)', 'rgba(255, 154, 66, 0.8)'];
 	var color = colors[Math.floor(Math.random()*colors.length)];
 	shapes.push(new Shape(x, y, color));	
 	}
@@ -53,7 +50,7 @@ function Shape(x, y, color) {
 		this.y = y;
 		this.size = Math.random()*20+5;
 		this.dx = Math.random()*4-2;
-		this.dy = Math.random()*4-2;
+		this.dy = Math.random()*1-2;
 		this.color = color;
 		this.shape = balloonShapes[Math.floor(Math.random()*balloonShapes.length)];
 	  }
@@ -66,7 +63,9 @@ function degreesToRadians(degrees) {
 
 //not animated
 function drawBackground() {
-    var bgColor = '#dfbf9f';
+    var bgColor = context.createLinearGradient(0, 0, canvas.width,canvas.height);
+    bgColor.addColorStop(1, "#42a7ff");
+    bgColor.addColorStop(0, "#9ed2ff");
     //sets fill style
     context.fillStyle = bgColor;
     context.fillRect(0,0,canvas.width,canvas.height);
@@ -171,6 +170,7 @@ function drawRegular(regular){
     context.lineTo(regular.x+4, regular.y+8);
     context.lineTo(regular.x-4, regular.y+8);
     context.lineTo(regular.x, regular.y);
+    context.closePath();
     context.fillStyle=regular.color;
     context.fill();
     /*drawing the highlight
@@ -184,6 +184,60 @@ function drawRegular(regular){
     context.fill(); */
 }
 
+function drawStar(star) {
+    context.beginPath();
+    context.fillStyle=star.color;
+    context.lineJoin = 'round';
+    context.moveTo(star.x, star.y);
+    context.lineTo(star.x-30, star.y-10);
+    context.lineTo(star.x-45, star.y-40);
+    context.lineTo(star.x-60, star.y-10);
+    context.lineTo(star.x-90, star.y);
+    context.lineTo(star.x-65, star.y+20);
+    context.lineTo(star.x-70, star.y+50);
+    context.lineTo(star.x-45, star.y+30);
+    context.lineTo(star.x-25, star.y+53);
+    context.lineTo(star.x-25, star.y+20);
+    context.lineTo(star.x, star.y);
+    context.fill();
+    //drawing the tie
+    context.moveTo(star.x-45, star.y+30);
+    context.lineTo(star.x-41, star.y+38);
+    context.lineTo(star.x-49, star.y+38);
+    context.lineTo(star.x-45, star.y+30);
+    context.closePath();
+    context.fill();
+}
+
+function drawLong(longBal) {
+    context.beginPath();
+    context.fillStyle=longBal.color;
+    context.moveTo(longBal.x, longBal.y);
+    context.bezierCurveTo(longBal.x-40, longBal.y-250, longBal.x+50, longBal.y-30, longBal.x, longBal.y);
+    //drawing the tie of the balloon
+    context.moveTo(longBal.x, longBal.y);
+    context.lineTo(longBal.x+4, longBal.y+8);
+    context.lineTo(longBal.x-4, longBal.y+8);
+    context.lineTo(longBal.x, longBal.y);
+    context.closePath();
+    context.fill();
+}
+
+function drawHeart(heart) {
+    context.beginPath();
+    context.fillStyle=heart.color;
+    context.moveTo(heart.x, heart.y);
+    
+}
+
+function drawText(){
+    context.beginPath();
+    context.font = '24pt Helvetica Neue';
+    context.fillStyle = 'black';
+    context.textAlign = 'center';
+    context.fillText('Balloon Fun!', canvas.width/2, canvas.height/6);
+    }
+
 
 function resizeCanvas() {
         canvas.width = window.innerWidth-20;
@@ -193,27 +247,24 @@ function resizeCanvas() {
         drawGround();
         drawCord();
         drawPump();
+        drawText();
 		for (var i=0; i<shapes.length; i++) {
 			if (shapes[i].shape == 'regular') {
 				drawRegular(shapes[i]);
-
-			} /*else if (shapes[i].shape == 'circle') {
-				drawCircle(shapes[i]);
-			} else if (shapes[i].shape == 'triangle') {
-				drawTriangle(shapes[i]);
-			} else if (shapes[i].shape == 'drop') {
+			} else if (shapes[i].shape == 'star') {
+				drawStar(shapes[i]);
+			} else if (shapes[i].shape == 'longBal') {
+				drawLong(shapes[i]);
+			} /*else if (shapes[i].shape == 'drop') {
 				drawDrop(shapes[i]);
 			} else if (shapes[i].shape == 'cloud') {
 				drawCloud(shapes[i]);
 			} */
-			//if (shapes[i].x + shapes[i].dx > canvas.width || shapes[i].x + shapes[i].dx > 0)
-				//shapes[i].dx = -shapes[i].dx;
-			if (shapes[i].y + shapes[i].dy > canvas.height || shapes[i].y + shapes[i].dy > 0)
-				//shapes[i].dy = -shapes[i].dy;
+            //animation
+			if (shapes[i].y + shapes[i].dy > 0)
 				shapes[i].x += shapes[i].dx;
 				shapes[i].y += shapes[i].dy;
-		}
-		//drawText();		 
+		}		 
       }
 
 window.onload = init;
