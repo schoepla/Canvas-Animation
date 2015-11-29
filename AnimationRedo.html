@@ -48,7 +48,7 @@ function newShape() {
 function Shape(x, y, color) {
 		this.x = x;
 		this.y = y;
-		this.size = Math.random()*20+5;
+		this.size = 6;
 		this.dx = Math.random()*4-2;
 		this.dy = Math.random()*1-2;
 		this.color = color;
@@ -229,9 +229,9 @@ function drawHeart(heart) {
     //context.arc(heart.x, heart.y, 35, 0, 2.2, true);
     context.lineTo(heart.x+45, heart.y+80);
     context.lineTo(heart.x+90, heart.y);
-    context.arc(heart.x+65, heart.y, 24, degreesToRadians(180), degreesToRadians(0), false);
+    context.arc(heart.x+65, heart.y, heart.size*4, degreesToRadians(180), degreesToRadians(0), false);
     context.moveTo(heart.x+20, heart.y);
-    context.arc(heart.x+20, heart.y, 24, degreesToRadians(180), degreesToRadians(0), false);
+    context.arc(heart.x+20, heart.y, heart.size*4, degreesToRadians(180), degreesToRadians(0), false);
     //drawing the tie of the balloon
     context.moveTo(heart.x+45, heart.y+80);
     context.lineTo(heart.x+49, heart.y+88);
@@ -245,11 +245,11 @@ function drawMickey(mickey){
     context.beginPath();
     context.fillStyle=mickey.color;
     context.moveTo(mickey.x, mickey.y);
-    context.arc(mickey.x, mickey.y, 20, degreesToRadians(360), degreesToRadians(0), false);
+    context.arc(mickey.x, mickey.y, mickey.size+14, degreesToRadians(360), degreesToRadians(0), false);
     context.moveTo(mickey.x+50, mickey.y);
-    context.arc(mickey.x+50, mickey.y, 20, degreesToRadians(360), degreesToRadians(0), false);
+    context.arc(mickey.x+50, mickey.y, mickey.size+14, degreesToRadians(360), degreesToRadians(0), false);
     context.moveTo(mickey.x+25, mickey.y+25);
-    context.arc(mickey.x+25, mickey.y+25, 30, degreesToRadians(360), degreesToRadians(0), false);
+    context.arc(mickey.x+25, mickey.y+25, mickey.size+24, degreesToRadians(360), degreesToRadians(0), false);
     //drawing the tie of the balloon
     context.moveTo(mickey.x+25, mickey.y+55);
     context.lineTo(mickey.x+29, mickey.y+63);
