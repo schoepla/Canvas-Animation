@@ -34,7 +34,7 @@ function init() {
 			handleClick(event.clientX, event.clientY);
 		};
 		timer = setInterval(resizeCanvas, 20);
-		timerTwo = setInterval(newShape, 1000);
+		timerTwo = setInterval(newShape, 2000);
       }
 
 function newShape() {
@@ -46,8 +46,8 @@ function newShape() {
 	}
 
 function Shape(x, y, color) {
-		this.x = x;
-		this.y = y;
+		this.x = canvas.width-400;
+		this.y = canvas.height-28;
 		this.size = 6;
 		this.dx = Math.random()*4-2;
 		this.dy = Math.random()*1-2;
@@ -160,8 +160,6 @@ function drawRegular(regular){
     context.lineJoin = 'miter';
     //x= 100, y = 422 in original
     //canvas width = 500, canvas height = 450
-    //regular.x = canvas.width-400;
-    //regular.y = canvas.height-28;
     context.moveTo(regular.x, regular.y);
     context.bezierCurveTo(regular.x-100, regular.y-222, regular.x+200, regular.y-122, regular.x, regular.y);
     //drawing the tie of the balloon
@@ -187,24 +185,24 @@ function drawStar(star) {
     context.beginPath();
     context.fillStyle=star.color;
     context.lineJoin = 'round';
-    context.moveTo(star.x, star.y);
-    context.lineTo(star.x-30, star.y-10);
-    context.lineTo(star.x-45, star.y-40);
-    context.lineTo(star.x-60, star.y-10);
-    context.lineTo(star.x-90, star.y);
-    context.lineTo(star.x-65, star.y+20);
-    context.lineTo(star.x-70, star.y+50);
-    context.lineTo(star.x-45, star.y+30);
-    context.lineTo(star.x-25, star.y+53);
+    context.moveTo(star.x+45, star.y-30);
+    context.lineTo(star.x+15, star.y-40);
+    context.lineTo(star.x, star.y-70);
+    context.lineTo(star.x-15, star.y-40);
+    context.lineTo(star.x-45, star.y-30);
+    context.lineTo(star.x-20, star.y-10);
     context.lineTo(star.x-25, star.y+20);
     context.lineTo(star.x, star.y);
-    context.fill();
+    context.lineTo(star.x+20, star.y+23);
+    context.lineTo(star.x+20, star.y-10);
+    context.lineTo(star.x+45, star.y-30);
     //drawing the tie
-    context.moveTo(star.x-45, star.y+30);
-    context.lineTo(star.x-41, star.y+38);
-    context.lineTo(star.x-49, star.y+38);
-    context.lineTo(star.x-45, star.y+30);
+    context.moveTo(star.x, star.y);
+    context.lineTo(star.x+4, star.y+8);
+    context.lineTo(star.x-4, star.y+8);
+    context.lineTo(star.x, star.y);
     context.closePath();
+    context.fillStyle=star.color;
     context.fill();
 }
 
@@ -225,18 +223,17 @@ function drawLong(longBal) {
 function drawHeart(heart) {
     context.beginPath();
     context.fillStyle=heart.color;
-    context.moveTo(heart.x-5, heart.y);
-    //context.arc(heart.x, heart.y, 35, 0, 2.2, true);
-    context.lineTo(heart.x+45, heart.y+80);
-    context.lineTo(heart.x+90, heart.y);
-    context.arc(heart.x+65, heart.y, heart.size*4, degreesToRadians(180), degreesToRadians(0), false);
-    context.moveTo(heart.x+20, heart.y);
-    context.arc(heart.x+20, heart.y, heart.size*4, degreesToRadians(180), degreesToRadians(0), false);
+    context.moveTo(heart.x-50, heart.y-80);
+    context.lineTo(heart.x, heart.y);
+    context.lineTo(heart.x+45, heart.y-80);
+    context.arc(heart.x+20, heart.y-80, heart.size*4, degreesToRadians(180), degreesToRadians(0), false);
+    context.moveTo(heart.x-25, heart.y-80);
+    context.arc(heart.x-25, heart.y-80, heart.size*4, degreesToRadians(180), degreesToRadians(0), false);
     //drawing the tie of the balloon
-    context.moveTo(heart.x+45, heart.y+80);
-    context.lineTo(heart.x+49, heart.y+88);
-    context.lineTo(heart.x+41, heart.y+88);
-    context.lineTo(heart.x+45, heart.y+80);
+    context.moveTo(heart.x, heart.y);
+    context.lineTo(heart.x+4, heart.y+8);
+    context.lineTo(heart.x-4, heart.y+8);
+    context.lineTo(heart.x, heart.y);
     context.closePath();
     context.fill();
 }
@@ -244,17 +241,17 @@ function drawHeart(heart) {
 function drawMickey(mickey){
     context.beginPath();
     context.fillStyle=mickey.color;
-    context.moveTo(mickey.x, mickey.y);
-    context.arc(mickey.x, mickey.y, mickey.size+14, degreesToRadians(360), degreesToRadians(0), false);
-    context.moveTo(mickey.x+50, mickey.y);
-    context.arc(mickey.x+50, mickey.y, mickey.size+14, degreesToRadians(360), degreesToRadians(0), false);
-    context.moveTo(mickey.x+25, mickey.y+25);
-    context.arc(mickey.x+25, mickey.y+25, mickey.size+24, degreesToRadians(360), degreesToRadians(0), false);
+    context.moveTo(mickey.x-25, mickey.y-55);
+    context.arc(mickey.x-25, mickey.y-55, mickey.size+14, degreesToRadians(360), degreesToRadians(0), false);
+    context.moveTo(mickey.x+25, mickey.y-55);
+    context.arc(mickey.x+25, mickey.y-55, mickey.size+14, degreesToRadians(360), degreesToRadians(0), false);
+    context.moveTo(mickey.x, mickey.y-30);
+    context.arc(mickey.x, mickey.y-30, mickey.size+24, degreesToRadians(360), degreesToRadians(0), false);
     //drawing the tie of the balloon
-    context.moveTo(mickey.x+25, mickey.y+55);
-    context.lineTo(mickey.x+29, mickey.y+63);
-    context.lineTo(mickey.x+21, mickey.y+63);
-    context.lineTo(mickey.x+25, mickey.y+55);
+    context.moveTo(mickey.x, mickey.y);
+    context.lineTo(mickey.x+4, mickey.y+8);
+    context.lineTo(mickey.x-4, mickey.y+8);
+    context.lineTo(mickey.x, mickey.y);
     context.closePath();
     context.fill();
 }
