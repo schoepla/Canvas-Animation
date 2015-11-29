@@ -61,11 +61,10 @@ function degreesToRadians(degrees) {
     return (degrees * Math.PI)/180;
 }
 
-//not animated
 function drawBackground() {
-    var bgColor = context.createLinearGradient(0, 0, canvas.width,canvas.height);
+    var bgColor = context.createLinearGradient(canvas.width, 0, canvas.width,canvas.height);
     bgColor.addColorStop(1, "#42a7ff");
-    bgColor.addColorStop(0, "#9ed2ff");
+    bgColor.addColorStop(0, "#c4e4ff");
     //sets fill style
     context.fillStyle = bgColor;
     context.fillRect(0,0,canvas.width,canvas.height);
@@ -227,7 +226,13 @@ function drawHeart(heart) {
     context.beginPath();
     context.fillStyle=heart.color;
     context.moveTo(heart.x, heart.y);
-    
+    context.arc(heart.x, heart.y, 35, 0, 2.2, true);
+    context.lineTo(heart.x+30, heart.y+80);
+    context.lineTo(heart.x+95, heart.y+20);
+    context.arc(heart.x+70, heart.y, 35, degreesToRadians(180), degreesToRadians(33), false);
+    context.lineTo(heart.x+95, heart.y);
+    context.closePath();
+    context.fill();
 }
 
 function drawText(){
@@ -255,9 +260,9 @@ function resizeCanvas() {
 				drawStar(shapes[i]);
 			} else if (shapes[i].shape == 'longBal') {
 				drawLong(shapes[i]);
-			} /*else if (shapes[i].shape == 'drop') {
-				drawDrop(shapes[i]);
-			} else if (shapes[i].shape == 'cloud') {
+			} else if (shapes[i].shape == 'heart') {
+				drawHeart(shapes[i]);
+			} /*else if (shapes[i].shape == 'cloud') {
 				drawCloud(shapes[i]);
 			} */
             //animation
