@@ -22,6 +22,8 @@ var timer;
 var timerTwo;
 var shapes = [];
 var balloonShapes = ['regular', 'star', 'longBal', 'heart', 'mickey'];
+//var title = 'Balloon Fun';
+//var pumpTimer;
 
 function init() {
         canvas = document.getElementById('canvas');
@@ -35,6 +37,7 @@ function init() {
 		};
 		timer = setInterval(resizeCanvas, 20);
 		timerTwo = setInterval(newShape, 2000);
+        //pumpTimer = setInterval(Pump, 2000);
       }
 
 function newShape() {
@@ -135,31 +138,12 @@ function drawGround(){
         context.lineTo(canvas.width, canvas.height);
         context.fillStyle="#00664c";
         context.fill();
-        /*lines for walls--fix later
-        context.fillStyle='#d2a679';
-        context.beginPath();
-        context.moveTo(450, 400);
-        context.lineTo(450, 0);
-        context.lineTo(500, 0);
-        context.lineTo(500, 450);
-        context.lineTo(450, 400);
-        context.fill();
-        //second wall
-        context.beginPath();
-        context.moveTo(50, 400);
-        context.lineTo(50, 0);
-        context.lineTo(0, 0);
-        context.lineTo(0, 450);
-        context.lineTo(50, 400);
-        context.fill(); */
     }
 
 //animated regular balloon shape
 function drawRegular(regular){
     context.beginPath();
     context.lineJoin = 'miter';
-    //x= 100, y = 422 in original
-    //canvas width = 500, canvas height = 450
     context.moveTo(regular.x, regular.y);
     context.bezierCurveTo(regular.x-100, regular.y-222, regular.x+200, regular.y-122, regular.x, regular.y);
     //drawing the tie of the balloon
@@ -170,15 +154,6 @@ function drawRegular(regular){
     context.closePath();
     context.fillStyle=regular.color;
     context.fill();
-    /*drawing the highlight
-    //change later to white translucent -- rgba(?,?,?, 0.2)
-    //context.fillStyle='white';
-    context.moveTo(regular.x+10, regular.y-72);
-    context.lineTo(regular.x+10, regular.y-64);
-    context.lineTo(regular.x+14, regular.y-68);
-    context.lineTo(regular.x+14, regular.y-72);
-    context.lineTo(regular.x+10, regular.y=72);
-    context.fill(); */
 }
 
 function drawStar(star) {
@@ -256,14 +231,24 @@ function drawMickey(mickey){
     context.fill();
 }
 
+/*function MakeText (x, y) {
+    this.x = canvas.width/2;
+    this.y = y;
+    this.dx = 0;
+    this.dy = Math.random()*1-2;
+} */
+
 function drawText(){
-    context.beginPath();
+    //MakeText(title.x, title.y);
+    this.y = 50;
+    this.dy = 20;
+    //context.beginPath();
+    //context.moveTo(x, y);
     context.font = '24pt Helvetica Neue';
     context.fillStyle = 'black';
-    context.textAlign = 'center';
-    context.fillText('Balloon Fun!', canvas.width/2, canvas.height/6);
+    //context.textAlign = 'center';
+    context.fillText('Balloon Fun!', (canvas.width/2)-100, this.y);
     }
-
 
 function resizeCanvas() {
         canvas.width = window.innerWidth-20;
@@ -291,7 +276,8 @@ function resizeCanvas() {
 				shapes[i].x += shapes[i].dx;
 				shapes[i].y += shapes[i].dy;
                 //shapes[i].size++;
-		}		 
+                
+		}	        	 
       }
 
 window.onload = init;
