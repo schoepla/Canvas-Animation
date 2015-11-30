@@ -8,9 +8,8 @@ canvas {
 }	
 </style>
 <script>
-/*TO DO
+/*TO DO for final
 Add background music
-Fix animation to balloons
 Add animation to pump
 Add animation to text--title screen with button to start?
 */
@@ -43,7 +42,7 @@ function init() {
 function newShape() {
 	var x = Math.random() * canvas.width;
 	var y = Math.random() * canvas.height;
-    var colors = ['rgba(232, 77, 77, 0.8)', 'rgba(77, 232, 232, 0.8)', 'rgba(155, 232, 77, 0.8)','rgba(154, 77, 232, 0.8)', 'rgba(255, 250, 105, 0.8)', 'rgba(255, 154, 66, 0.8)'];
+    var colors = ['rgba(232, 77, 77, 0.8)', 'rgba(77, 232, 232, 0.8)', 'rgba(155, 232, 77, 0.8)','rgba(154, 77, 232, 0.8)', 'rgba(255, 154, 66, 0.8)'];
 	var color = colors[Math.floor(Math.random()*colors.length)];
 	shapes.push(new Shape(x, y, color));	
 	}
@@ -136,11 +135,26 @@ function drawGround(){
         context.lineTo(0, canvas.height-50);
         context.lineTo(0, canvas.height);
         context.lineTo(canvas.width, canvas.height);
-        context.fillStyle="#00664c";
+        context.fillStyle='#038c0c';
         context.fill();
     }
 
-//animated regular balloon shape
+function drawSun(){
+    context.globalCompositeOperation='source-over';
+    context.beginPath();
+    //context.moveTo(20, 20);
+    context.arc(40, 40, 60, degreesToRadians(360), degreesToRadians(0), false);
+    context.fillStyle='#ffeea1';
+    var rays = context.createRadialGradient(40, 40, 60, 40, 40, 140);
+    rays.addColorStop(0, '#fff3bf');
+    rays.addColorStop(1, 'rgba(255, 255, 214, 0.1');
+    context.fill();
+    context.arc(40, 40, 140, degreesToRadians(360), degreesToRadians(0), false);
+    context.fillStyle = rays;
+    context.fill();
+}
+
+//draw regular balloon 
 function drawRegular(regular){
     context.beginPath();
     context.lineJoin = 'miter';
@@ -156,6 +170,7 @@ function drawRegular(regular){
     context.fill();
 }
 
+//draw star balloon
 function drawStar(star) {
     context.beginPath();
     context.fillStyle=star.color;
@@ -181,6 +196,7 @@ function drawStar(star) {
     context.fill();
 }
 
+//draw oblong balloon
 function drawLong(longBal) {
     context.beginPath();
     context.fillStyle=longBal.color;
@@ -195,6 +211,7 @@ function drawLong(longBal) {
     context.fill();
 }
 
+//draw heart balloon
 function drawHeart(heart) {
     context.beginPath();
     context.fillStyle=heart.color;
@@ -213,6 +230,7 @@ function drawHeart(heart) {
     context.fill();
 }
 
+//draw mickey balloon
 function drawMickey(mickey){
     context.beginPath();
     context.fillStyle=mickey.color;
@@ -231,6 +249,7 @@ function drawMickey(mickey){
     context.fill();
 }
 
+//attempt to animate text
 /*function MakeText (x, y) {
     this.x = canvas.width/2;
     this.y = y;
@@ -256,6 +275,7 @@ function resizeCanvas() {
         //redraw all static elements
 		drawBackground();
         drawGround();
+        drawSun();
         drawCord();
         drawPump();
         drawText();
@@ -276,7 +296,7 @@ function resizeCanvas() {
 				shapes[i].x += shapes[i].dx;
 				shapes[i].y += shapes[i].dy;
                 //shapes[i].size++;
-                
+
 		}	        	 
       }
 
