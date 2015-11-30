@@ -12,6 +12,8 @@ canvas {
 Add background music
 Add animation to pump
 Add animation to text--title screen with button to start?
+Create pattern for grass (custom art to tile)
+Add gradients to balloons for light
 */
 
 var canvas;
@@ -130,12 +132,11 @@ function drawCord(){
 function drawGround(){
         context.globalCompositeOperation='source-over';
         context.beginPath();
-        context.moveTo(canvas.width, canvas.height);
-        context.lineTo(canvas.width, canvas.height-50);
-        context.lineTo(0, canvas.height-50);
-        context.lineTo(0, canvas.height);
-        context.lineTo(canvas.width, canvas.height);
-        context.fillStyle='#038c0c';
+        context.rect(0, canvas.height-50, canvas.width, canvas.height);
+        var image = document.createElement('img');
+        image.src = 'grass.png';
+        var pattern = context.createPattern(image, 'repeat');
+        context.fillStyle = pattern;
         context.fill();
     }
 
